@@ -1,16 +1,7 @@
 {
-  "routes": [
-    {
-      "src": "/api/.*",
-      "dest": "api/index.py"
-    }
-  ],
   "functions": {
-    "api/index.py": {
-      "maxDuration": 30,
-      "memory": 1024,
-      "includeFiles": "src/**",
-      "excludeFiles": "**/__pycache__/**"
+    "api/**": {
+      "excludeFiles": "{.next,.git,node_modules}/**"
     }
   }
 }
