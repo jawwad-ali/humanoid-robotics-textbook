@@ -95,9 +95,6 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.15)
-      types:
-        specifier: link:next-themes/dist/types
-        version: link:next-themes/dist/types
       typescript:
         specifier: 5.0.4
         version: 5.0.4
