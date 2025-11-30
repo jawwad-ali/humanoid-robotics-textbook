@@ -2,6 +2,6 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/health")
+@app.get("/api/health")
 async def health_check():
-    return {"status": "Test Driven Development"}
+    return {"status": "Test Driven DevelopmentTTTTTTTTTTTTTTTTTTTTT"}
