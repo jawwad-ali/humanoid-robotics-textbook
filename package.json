@@ -2,14 +2,22 @@
   "name": "nextjs-fastapi",
   "version": "0.1.0",
   "private": true,
+
+  "workspaces": ["textbook"],
+
   "scripts": {
     "fastapi-dev": "pip3 install -r requirements.txt && python3 -m uvicorn api.index:app --reload",
+
     "next-dev": "next dev",
     "dev": "npm run next-dev",
-    "build": "next build",
+
+    "build": "npm run build:textbook && next build",
+    "build:textbook": "npm run build -w textbook",
+
     "start": "next start",
     "lint": "next lint"
   },
+
   "dependencies": {
     "@ai-sdk/react": "^2.0.76",
     "@radix-ui/react-slot": "^1.1.0",
