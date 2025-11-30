@@ -1,5 +1,7 @@
 import React from 'react';
 
+export const dynamic = 'force-dynamic';
+
 const get_health = async () => {
   const res = await fetch("http://localhost:8000/health");
   console.log('res', res)
