@@ -1,6 +1,4 @@
 {
-  "buildCommand": "pnpm run build",
-  "installCommand": "pnpm install",
   "builds": [
     {
       "src": "api/index.py",
@@ -11,10 +9,6 @@
     {
       "source": "/api/:path*",
       "destination": "/api/index.py"
-    },
-    {
-      "source": "/docs/:path*",
-      "destination": "/textbook/build/:path*"
     }
   ]
 }
