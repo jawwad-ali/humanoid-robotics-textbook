@@ -7,10 +7,14 @@
       "use": "@vercel/python"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "api/index.py"
+      "source": "/api/:path*",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/docs/:path*",
+      "destination": "/textbook/build/:path*"
     }
   ]
 }
