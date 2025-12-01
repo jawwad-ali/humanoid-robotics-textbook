@@ -8,6 +8,7 @@ import google.generativeai as genai
 from utils.config import init_qdrant, settings
 from utils.models import ChatRequest, ChatResponse
 from utils.helpers import embed_text, search_qdrant, build_rag_prompt
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv(".env")
 logger = logging.getLogger(__name__)
@@ -25,8 +26,19 @@ if MODEL_NAME is None:
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Initialize FastAPI app
-app = FastAPI()
-
+app = FastAPI(title="Physical AI Textbook RAG API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://localhost:3002",
+        "https://your-book-domain.com",   
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Initialize OpenAI client for Gemini
 external_client = AsyncOpenAI(
     api_key=GEMINI_API_KEY,

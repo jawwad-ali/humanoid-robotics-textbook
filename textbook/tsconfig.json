@@ -28,7 +28,8 @@
       "@docusaurus/theme-common": ["./node_modules/@docusaurus/theme-common"],
       "@docusaurus/*": ["./node_modules/@docusaurus/*"],
       "@site/*": ["./*"],
-      "@generated/*": ["./.docusaurus/*"]
+      "@generated/*": ["./.docusaurus/*"],
+      "@/*": ["../*"]
     }
   },
   // Ensure the TypeScript compiler checks the source code
