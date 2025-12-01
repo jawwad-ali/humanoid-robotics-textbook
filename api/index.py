@@ -30,10 +30,7 @@ app = FastAPI(title="Physical AI Textbook RAG API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "http://localhost:3002",
-        "https://your-book-domain.com",   
+        "*" 
     ],
     allow_credentials=True,
     allow_methods=["*"],
