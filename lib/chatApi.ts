@@ -29,8 +29,21 @@ export interface ChatError {
 }
 
 const API_BASE_URL = typeof window !== 'undefined' 
-  ? (window as any).ENV?.NEXT_PUBLIC_API_URL || "http://localhost:8000"
-  : process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+  ? (window as any).ENV?.NEXT_PUBLIC_API_URL || (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_URL) || ""
+  : process.env.NEXT_PUBLIC_API_URL || ""
+
+// Use /api for Vercel deployment, localhost:8000 for local development
+const getApiUrl = () => {
+  if (typeof window !== 'undefined') {
+    // Client-side: check if we're on Vercel (production) or localhost (development)
+    if (window.location.hostname === 'localhost') {
+      return 'http://localhost:8000'
+    }
+    // On Vercel, use relative /api path
+    return ''
+  }
+  return API_BASE_URL
+}
 
 /**
  * Send a chat message to the backend and get a response
@@ -51,7 +64,10 @@ export async function sendChatMessage(
       chapter_slug: chapterSlug,
     }
 
-    const response = await fetch(`${API_BASE_URL}/chat`, {
+    const apiUrl = getApiUrl()
+    const endpoint = `${apiUrl}/chat`
+
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +101,8 @@ export async function sendChatMessage(
  */
 export async function checkApiHealth(): Promise<boolean> {
   try {
-    const response = await fetch(`${API_BASE_URL}/`, {
+    const apiUrl = getApiUrl()
+    const response = await fetch(`${apiUrl}/`, {
       method: "GET",
     })
     return response.ok
