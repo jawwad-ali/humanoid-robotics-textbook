@@ -2,13 +2,12 @@
   "name": "nextjs-fastapi",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["textbook"],
   "scripts": {
     "fastapi-dev": "pip3 install -r requirements.txt && python3 -m uvicorn api.index:app --reload",
     "next-dev": "next dev",
     "dev": "npm run next-dev",
     "build": "npm run build:textbook && next build",
-    "build:textbook": "pnpm --filter textbook build && mkdir -p public/docs && cp -r textbook/build/* public/docs/",
+    "build:textbook": "pnpm -F textbook build && mkdir -p public/docs && cp -r textbook/build/* public/docs/",
     "start": "next start",
     "lint": "next lint"
   },
