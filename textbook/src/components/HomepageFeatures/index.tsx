@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
@@ -44,7 +43,7 @@ function Feature({title, Svg, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        <Svg className="featureSvg" role="img" />
       </div>
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>
@@ -56,7 +55,7 @@ function Feature({title, Svg, description}: FeatureItem) {
 
 export default function HomepageFeatures() {
   return (
-    <section className={styles.features}>
+    <section className="features">
       <div className="container">
         <div className="row">
           {FeatureList.map((props, idx) => (

@@ -151,3 +151,15 @@ article {
 .markdown h4 + p {
   margin-top: 0.5em;
 }
+
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.featureSvg {
+  height: 200px;
+  width: 200px;
+}
