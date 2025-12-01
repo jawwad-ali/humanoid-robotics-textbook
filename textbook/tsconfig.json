@@ -1,8 +1,29 @@
 {
-  // This file is not used in compilation. It is here just for a nice editor experience.
+  // You might need to extend the default Docusaurus tsconfig here
   "extends": "@docusaurus/tsconfig",
+  
   "compilerOptions": {
-    "baseUrl": "."
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".", // Use current directory as base
+    "paths": {
+      // CRITICAL FIX: Map the @site alias to the current directory
+      "@site/*": ["./*"] 
+    }
   },
-  "exclude": [".docusaurus", "build"]
+  "include": ["src", "types"],
+  "exclude": [
+    "node_modules", 
+    "build", 
+    ".cache"
+  ]
 }
