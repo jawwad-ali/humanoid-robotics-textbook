@@ -1,43 +1,49 @@
-import "./globals.css";
-import { GeistSans } from "geist/font/sans";
-import { Toaster } from "sonner";
-import { cn } from "@/lib/utils";
-import { Navbar } from "@/components/navbar";
+import type React from "react"
+import type { Metadata } from "next"
+import { Poppins } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
+import "./globals.css"
 
-export const metadata = {
-  title: "AI SDK Python Streaming Preview",
-  description:
-    "Use the Data Stream Protocol to stream chat completions from a Python endpoint (FastAPI) and display them using the useChat hook in your Next.js application.",
-  openGraph: {
-    images: [
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-poppins",
+})
+
+export const metadata: Metadata = {
+  title: "Humanoid Robotics Textbook - Master the Future",
+  description: "Comprehensive guide to humanoid robotics, covering mechanics, AI, and cutting-edge applications",
+  generator: "v0.app",
+  icons: {
+    icon: [
       {
-        url: "/og?title=AI SDK Python Streaming Preview",
+        url: "/icon-light-32x32.png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/icon-dark-32x32.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/icon.svg",
+        type: "image/svg+xml",
       },
     ],
+    apple: "/apple-icon.png",
   },
-  twitter: {
-    card: "summary_large_image",
-    images: [
-      {
-        url: "/og?title=AI SDK Python Streaming Preview",
-      },
-    ],
-  },
-};
+}
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: Readonly<{
+  children: React.ReactNode
+}>) {
   return (
-    <html lang="en">
-      <head></head>
-      <body className={cn(GeistSans.className, "antialiased dark")}>
-        <Toaster position="top-center" richColors />
-        <Navbar />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${poppins.variable} font-sans antialiased`}>
         {children}
+        <Analytics />
       </body>
     </html>
-  );
+  )
 }
