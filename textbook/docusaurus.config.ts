@@ -8,7 +8,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://jawwad-ali.github.io',
-  baseUrl: '/',
+  baseUrl: '/docs/',
 
   organizationName: 'jawwad-ali',
   projectName: 'physical-ai-textbook',
