@@ -1,4 +1,11 @@
-import { Chat } from '@/components/chat';
+import Home from "./components/HeroSection";
+import Footer from "./components/Footer";
+
 export default function Page() {
-  return <Chat />;
+  return(
+   <>
+     <Home />
+     <Footer />
+   </>
+)
 }

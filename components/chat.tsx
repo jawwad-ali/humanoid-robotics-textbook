@@ -39,6 +39,7 @@ export function Chat() {
   
   return (
     <div className="flex flex-col min-w-0 h-[calc(100dvh-52px)] bg-background">
+      <h1>Hello world</h1>
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">Error: {error}</p>}
       {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
