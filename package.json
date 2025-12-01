@@ -4,13 +4,12 @@
   "private": true,
   "workspaces": ["textbook"],
   "scripts": {
-    "fastapi-dev": "pip3 install -r requirements.txt && python3 -m uvicorn api.index:app --reload",
-
+"fastapi-dev": "...",
     "next-dev": "next dev",
-    "dev": "npm run next-dev",
-
+    "dev": "concurrently \"npm run next-dev\" \"npm run dev -w textbook\"",
+  
     "build": "npm run build:textbook && next build",
-    "build:textbook": "npm run build -w textbook",
+    "build:textbook": "npm run build -w textbook && cp -r textbook/build public/docs",
 
     "start": "next start",
     "lint": "next lint"
