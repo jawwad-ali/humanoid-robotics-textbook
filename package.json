@@ -8,7 +8,7 @@
     "next-dev": "next dev",
     "dev": "npm run next-dev",
     "build": "npm run build:textbook && next build",
-    "build:textbook": "npm run build -w textbook && mkdir -p public/docs && cp -r textbook/build/* public/docs/",
+    "build:textbook": "pnpm --filter textbook build && mkdir -p public/docs && cp -r textbook/build/* public/docs/",
     "start": "next start",
     "lint": "next lint"
   },
