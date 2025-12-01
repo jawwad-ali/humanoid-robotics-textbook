@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #1cd98e;
+  --ifm-color-primary-dark: #19c380;
+  --ifm-color-primary-darker: #18b978;
+  --ifm-color-primary-darkest: #139863;
+  --ifm-color-primary-light: #2fde9b;
+  --ifm-color-primary-lighter: #3ae0a1;
+  --ifm-color-primary-lightest: #5ae5b0;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(28, 217, 142, 0.1);
+  --ifm-font-family-base: 'Poppins', system-ui, -apple-system, sans-serif;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #4de3a8;
+  --ifm-color-primary-dark: #35df9d;
+  --ifm-color-primary-darker: #2ada96;
+  --ifm-color-primary-darkest: #1fbe82;
+  --ifm-color-primary-light: #65e7b3;
+  --ifm-color-primary-lighter: #70e9b8;
+  --ifm-color-primary-lightest: #8eedc7;
+  --docusaurus-highlighted-code-line-bg: rgba(77, 227, 168, 0.12);
+  
+  /* Refined dark mode backgrounds for better aesthetics */
+  --ifm-background-color: #0f1419;
+  --ifm-background-surface-color: #161b22;
+  --ifm-navbar-background-color: #0d1117;
+  --ifm-footer-background-color: #0d1117;
+  --ifm-card-background-color:  #161b22;
+}
+
+.markdown,
+article {
+  line-height: 1.8; /* Increased from default 1.6 for more breathing room */
+}
+
+/* Paragraphs - add vertical spacing between paragraphs */
+.markdown p {
+  margin-bottom: 1.2em; /* Adds space between paragraphs */
+  line-height: 1.8;
+}
+
+/* Headings - add breathing room above and below */
+.markdown h1 {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  line-height: 1.3;
+}
+
+.markdown h2 {
+  margin-bottom: 0.8em;
+  line-height: 1.4;
+}
+
+.markdown h3 {
+  margin-bottom: 0.7em;
+  line-height: 1.4;
+}
+
+.markdown h4 {
+  margin-top: 1.5em;
+  margin-bottom: 0.6em;
+  line-height: 1.4;
+}
+
+/* Lists - improve spacing between list items */
+.markdown ul,
+.markdown ol {
+  line-height: 1.8;
+  margin-bottom: 1.2em;
+}
+
+.markdown li {
+  margin-bottom: 0.5em; /* Space between list items */
+}
+
+.markdown li > p {
+  margin-bottom: 0.5em; /* Reduce spacing for paragraphs inside lists */
+}
+
+/* Code blocks - add spacing around code blocks */
+.markdown pre {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  line-height: 1.6; /* Slightly tighter for code readability */
+}
+
+/* Inline code - slight padding for better visibility */
+.markdown code {
+  padding: 0.1em 0.3em;
+}
+
+/* Blockquotes - add spacing and improve readability */
+.markdown blockquote {
+  margin: 1.5em 0;
+  padding: 0.8em 1.2em;
+  line-height: 1.7;
+}
+
+/* Tables - add spacing */
+.markdown table {
+  margin: 1.5em 0;
+  line-height: 1.6;
+}
+
+.markdown td,
+.markdown th {
+  padding: 0.8em 1em;
+}
+
+/* Learning objectives, success criteria - task lists */
+.markdown .contains-task-list {
+  line-height: 2; /* Extra spacing for checkboxes */
+}
+
+.markdown .task-list-item {
+  margin-bottom: 0.6em;
+}
+
+/* Mermaid diagrams - add spacing around diagrams */
+.mermaid {
+  margin: 2em 0;
+}
+
+/* Details/Summary (collapsible hints) - improve spacing */
+.markdown details {
+  margin: 1em 0;
+  padding: 0.5em 0;
+}
+
+.markdown summary {
+  margin-bottom: 0.5em;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Admonitions (tips, warnings, notes) - add breathing room */
+.admonition {
+  margin: 1.5em 0;
+  line-height: 1.7;
+}
+
+/* First paragraph after headings - reduce top margin for better flow */
+.markdown h1 + p,
+.markdown h2 + p,
+.markdown h3 + p,
+.markdown h4 + p {
+  margin-top: 0.5em;
+}
+
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.featureSvg {
+  height: 200px;
+  width: 200px;
+}
