@@ -1,44 +1,19 @@
-"""
-Agent tools for RAG functionality using OpenAI Agents SDK.
-These tools allow the agent to search the book content and answer questions.
-"""
-
 from typing import List, Optional, Dict, Any
 import logging
-
 from agents import function_tool
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as rest
 import google.generativeai as genai
-
 from app.config import settings
-
-
-logger = logging.getLogger("rag_backend.agent_tools")
-
+from utils.helpers import embed_text
 
 # Global references (initialized in main.py)
 _qdrant_client: Optional[QdrantClient] = None
-
 
 def set_qdrant_client(client: QdrantClient):
     """Set the global Qdrant client instance."""
     global _qdrant_client
     _qdrant_client = client
-
-
-def embed_text(text: str) -> List[float]:
-    """Generate embeddings for text using Gemini."""
-    if not text.strip():
-        raise ValueError("Cannot embed empty text.")
-
-    res = genai.embed_content(
-        model=settings.model_embedding,
-        content=text,
-        task_type="retrieval_query",
-    )
-    return res["embedding"]
-
 
 @function_tool
 def search_book_content(

@@ -1,7 +1,9 @@
 from pydantic_settings import BaseSettings
 from qdrant_client import QdrantClient
+from agents import AsyncOpenAI, OpenAIChatCompletionsModel, RunConfig
 import logging
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class Settings(BaseSettings):
