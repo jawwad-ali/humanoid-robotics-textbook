@@ -1,29 +1,41 @@
 {
-  // You might need to extend the default Docusaurus tsconfig here
+  // Extending the Docusaurus base config is the best practice
   "extends": "@docusaurus/tsconfig",
   
   "compilerOptions": {
-    "allowJs": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    
+    // CRITICAL: Set Module Resolution for Docusaurus modules
+    "module": "ESNext",
+    "moduleResolution": "Node", 
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": ".", // Use current directory as base
+    
+    "baseUrl": ".",
+    
+    // CRITICAL FIX: Define the path aliases Docusaurus uses
     "paths": {
-      // CRITICAL FIX: Map the @site alias to the current directory
-      "@site/*": ["./*"] 
+      "@docusaurus/theme-common": ["./node_modules/@docusaurus/theme-common"],
+      "@docusaurus/*": ["./node_modules/@docusaurus/*"],
+      "@site/*": ["./*"],
+      "@generated/*": ["./.docusaurus/*"]
     }
   },
-  "include": ["src", "types"],
-  "exclude": [
-    "node_modules", 
-    "build", 
-    ".cache"
+  // Ensure the TypeScript compiler checks the source code
+  "include": [
+    "src",
+    "types",
+    "**/*.ts",
+    "**/*.tsx"
   ]
 }

@@ -6,7 +6,8 @@ import Layout from '@theme/Layout';
 import HomepageFeatures from '../components/HomepageFeatures';
 // import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import styles from './index.module.css';
-import { Heading } from '@docusaurus/theme-common';
+import Heading from '@docusaurus/theme-common';
+
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
