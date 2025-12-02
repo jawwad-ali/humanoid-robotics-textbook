@@ -19,7 +19,7 @@ export default function Footer() {
           <div className="flex items-center gap-6">
             {/* LinkedIn Icon */}
             <a
-              href="https://linkedin.com/in/ali-jawwad"
+              href="https://www.linkedin.com/in/ali-jawwad-webdeveloper-nextjs-typescript-tailwindcss-jamstack-expert/"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative"
