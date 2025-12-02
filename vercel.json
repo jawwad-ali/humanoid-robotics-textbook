@@ -1,7 +1,7 @@
 {
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/api/.*",
       "dest": "api/index.py"
     }
   ],
@@ -9,8 +9,8 @@
     "api/index.py": {
       "maxDuration": 30,
       "memory": 1024,
-      "includeFiles":"utils/**",
-      "excludeFiles":"**/__pycache__/**"
+      "includeFiles": "utils/**",
+      "excludeFiles": "**/__pycache__/**"
     }
   }
 }

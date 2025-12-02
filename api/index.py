@@ -88,9 +88,21 @@ def startup_event():
 async def health_check_root():
     return {"status": "ok"}
 
+@app.get("/api/health")
+async def health_check_api():
+    return {"status": "ok"}
+
+@app.post("/api/chat", response_model=ChatResponse)
+def chat_api(req: ChatRequest):
+    """API endpoint for Vercel deployment"""
+    return chat_internal(req)
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):
+    """Endpoint for local development"""
+    return chat_internal(req)
+
+def chat_internal(req: ChatRequest) -> ChatResponse:
     try:
         query_emb = embed_text(req.query)
     except Exception as e:
