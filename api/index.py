@@ -84,17 +84,10 @@ def startup_event():
 # Routes
 # ---------------------------
 
-@app.get("/api/health")
-async def health_check():
-    return {"status": "ok"}
-
 @app.get("/health")
 async def health_check_root():
     return {"status": "ok"}
 
-@app.post("/api/chat", response_model=ChatResponse)
-def chat_api(req: ChatRequest):
-    return chat(req)
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):

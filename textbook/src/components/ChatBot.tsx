@@ -24,7 +24,18 @@ interface ChatResponse {
   }>
 }
 
-const API_BASE_URL = "http://localhost:8000"
+// Dynamically determine API URL based on environment
+const getApiUrl = () => {
+  if (typeof window !== 'undefined') {
+    // Client-side: check if we're on localhost or deployed
+    if (window.location.hostname === 'localhost') {
+      return 'http://localhost:8000'
+    }
+    // On Vercel/production, use relative /api path
+    return '/api'
+  }
+  return '/api'
+}
 
 async function sendChatMessage(
   query: string,
@@ -37,7 +48,8 @@ async function sendChatMessage(
     chapter_slug: chapterSlug,
   }
 
-  const response = await fetch(`${API_BASE_URL}/chat`, {
+  const apiUrl = getApiUrl()
+  const response = await fetch(`${apiUrl}/chat`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
