@@ -164,9 +164,6 @@ def chat(req: ChatRequest):
 
     return ChatResponse(answer=answer, contexts=contexts)
 
-# Export handler for Vercel serverless functions
-handler = app
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
