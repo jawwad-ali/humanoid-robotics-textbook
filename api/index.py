@@ -18,8 +18,8 @@ except ImportError:
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from utils.config import init_qdrant, settings
-from utils.models import ChatRequest, ChatResponse
-from utils.helpers import embed_text, search_qdrant, build_rag_prompt
+from utils.models import ChatRequest, ChatResponse, AskSelectionRequest, AskSelectionResponse
+from utils.helpers import embed_text, search_qdrant, build_rag_prompt, build_selection_prompt
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +65,7 @@ run_config = RunConfig(
     tracing_disabled=True
 )
 
-print("✅ OpenAI connection and LLM model initialized successfully!")
+print("[OK] OpenAI connection and LLM model initialized successfully!")
 
 
 # ---------------------------
@@ -165,6 +165,69 @@ def chat(req: ChatRequest):
             raise HTTPException(status_code=500, detail="Generation failed")
 
     return ChatResponse(answer=answer, contexts=contexts)
+
+
+##### Ask On Selection Endpoint #####
+
+@app.post("/ask-selection", response_model=AskSelectionResponse)
+@app.post("/api/ask-selection", response_model=AskSelectionResponse)
+def ask_selection(req: AskSelectionRequest):
+    """
+    Answer contextual questions about user-selected text.
+
+    This endpoint accepts a text selection from the textbook and a question about it,
+    then uses the OpenAI Agents SDK to generate a contextual answer.
+    """
+
+    # Input validation (redundant with Pydantic but explicit for clarity)
+    if len(req.selected_text.strip()) < 5:
+        raise HTTPException(status_code=400, detail="Selected text too short (minimum 5 characters)")
+    if len(req.selected_text.strip()) > 5000:
+        raise HTTPException(status_code=400, detail="Selected text too long (maximum 5000 characters)")
+    if len(req.question.strip()) == 0:
+        raise HTTPException(status_code=400, detail="Question cannot be empty")
+
+    # Build prompt with selected text as primary context (no RAG for MVP)
+    prompt = build_selection_prompt(req.selected_text, req.question)
+
+    try:
+        # Create agent with selection-focused instructions
+        agent = Agent(
+            name="Humanoid Robotics Textbook Assistant",
+            instructions=(
+                "You are a helpful tutor for a textbook about Physical AI & Humanoid Robotics. "
+                "Help students understand selected passages by answering their questions clearly, "
+                "accurately, and in a way that builds on the provided text context."
+            ),
+            model=MODEL_NAME
+        )
+
+        # Generate answer
+        result = Runner.run_sync(agent, prompt, run_config=run_config)
+        answer = result.final_output
+
+    except Exception as e:
+        logger.exception("Agent generation failed for ask-selection: %s", e)
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to generate answer. Please try again."
+        )
+
+    return AskSelectionResponse(
+        answer=answer,
+        selected_text=req.selected_text,
+        contexts=[],  # Empty for MVP (no RAG)
+        metadata={
+            "endpoint": "ask-selection",
+            "question_length": len(req.question),
+            "selection_length": len(req.selected_text)
+        }
+    )
+
+
+
+
+
 
 if __name__ == "__main__":
     import uvicorn
