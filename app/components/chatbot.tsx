@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react"
 import { Send, X, Maximize2, MessageCircle } from "lucide-react"
 import { sendChatMessage } from "@/lib/chatApi"
 
+const API_BASE_URL = "http://localhost:8000"
+
 interface Message {
   id: string
   type: "user" | "bot"

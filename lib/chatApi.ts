@@ -40,7 +40,7 @@ const getApiUrl = () => {
       return 'http://localhost:8000'
     }
     // On Vercel, use relative /api path
-    return '/api'
+    return ''
   }
   return API_BASE_URL
 }
@@ -102,7 +102,7 @@ export async function sendChatMessage(
 export async function checkApiHealth(): Promise<boolean> {
   try {
     const apiUrl = getApiUrl()
-    const response = await fetch(`${apiUrl}/health`, {
+    const response = await fetch(`${apiUrl}/`, {
       method: "GET",
     })
     return response.ok
