@@ -1,16 +1,26 @@
 from fastapi import FastAPI, HTTPException
 from agents import AsyncOpenAI, OpenAIChatCompletionsModel, RunConfig, Agent, Runner
-from dotenv import load_dotenv
 import os
+import sys
 import logging
 from typing import List
 import google.generativeai as genai
+from fastapi.middleware.cors import CORSMiddleware
+
+# Load environment variables for local development (optional for Vercel)
+try:
+    from dotenv import load_dotenv
+    load_dotenv(".env")
+except ImportError:
+    pass  # dotenv not available in production
+
+# Add parent directory to Python path for utils imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from utils.config import init_qdrant, settings
 from utils.models import ChatRequest, ChatResponse
 from utils.helpers import embed_text, search_qdrant, build_rag_prompt
-from fastapi.middleware.cors import CORSMiddleware
 
-load_dotenv(".env")
 logger = logging.getLogger(__name__)
 
 # Environment variables
@@ -59,24 +69,31 @@ print("✅ OpenAI connection and LLM model initialized successfully!")
 
 
 # ---------------------------
-# Startup Event
+# Startup Event & Qdrant Client
 # ---------------------------
+
+# Global qdrant client (initialized lazily for serverless compatibility)
+qdrant = None
+
+def get_qdrant():
+    """Get or initialize Qdrant client (serverless-compatible)"""
+    global qdrant
+    if qdrant is None:
+        qdrant = init_qdrant()
+        try:
+            collection_info = qdrant.get_collection(settings.qdrant_collection)
+            logger.info("Collection '%s' has %d points",
+                       settings.qdrant_collection,
+                       collection_info.points_count)
+            logger.info("Vector size: %s", collection_info.config.params.vectors)
+        except Exception as e:
+            logger.error("Failed to get collection info: %s", e)
+    return qdrant
 
 @app.on_event("startup")
 def startup_event():
-    global qdrant
-    qdrant = init_qdrant()
-    
-    # Check collection info
-    try:
-        collection_info = qdrant.get_collection(settings.qdrant_collection)
-        logger.info("Collection '%s' has %d points", 
-                   settings.qdrant_collection, 
-                   collection_info.points_count)
-        logger.info("Vector size: %s", collection_info.config.params.vectors)
-    except Exception as e:
-        logger.error("Failed to get collection info: %s", e)
-    
+    """Initialize on startup for local development"""
+    get_qdrant()
     logger.info("Startup complete.")
 
 
@@ -85,24 +102,12 @@ def startup_event():
 # ---------------------------
 
 @app.get("/health")
-async def health_check_root():
+async def health_check():
+    """Health check endpoint"""
     return {"status": "ok"}
-
-@app.get("/api/health")
-async def health_check_api():
-    return {"status": "ok"}
-
-@app.post("/api/chat", response_model=ChatResponse)
-def chat_api(req: ChatRequest):
-    """API endpoint for Vercel deployment"""
-    return chat_internal(req)
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):
-    """Endpoint for local development"""
-    return chat_internal(req)
-
-def chat_internal(req: ChatRequest) -> ChatResponse:
     try:
         query_emb = embed_text(req.query)
     except Exception as e:
@@ -110,8 +115,10 @@ def chat_internal(req: ChatRequest) -> ChatResponse:
         raise HTTPException(status_code=500, detail="Embedding failed")
 
     try:
+        # Get qdrant client (initializes if needed for serverless)
+        qdrant_client = get_qdrant()
         points = search_qdrant(
-            qdrant,
+            qdrant_client,
             query_emb,
             top_k=req.top_k,
             chapter_slug=req.chapter_slug,
@@ -156,6 +163,9 @@ def chat_internal(req: ChatRequest) -> ChatResponse:
             raise HTTPException(status_code=500, detail="Generation failed")
 
     return ChatResponse(answer=answer, contexts=contexts)
+
+# Export handler for Vercel serverless functions
+handler = app
 
 if __name__ == "__main__":
     import uvicorn
