@@ -69,8 +69,8 @@ async function sendChatMessage(
 
 const SUGGESTED_QUESTIONS = [
   "What is Humanoid Robotics?",
-  "What are the main topics covered?",
-  "How do I access the resources?",
+  "What is Physical AI?",
+  "What are Nodes?",
 ]
 
 export default function ChatBot() {
