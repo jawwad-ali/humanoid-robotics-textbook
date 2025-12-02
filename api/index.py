@@ -102,11 +102,13 @@ def startup_event():
 # ---------------------------
 
 @app.get("/health")
+@app.get("/api/health")
 async def health_check():
     """Health check endpoint"""
     return {"status": "ok"}
 
 @app.post("/chat", response_model=ChatResponse)
+@app.post("/api/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):
     try:
         query_emb = embed_text(req.query)
